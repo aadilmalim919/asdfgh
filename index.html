@@ -1,297 +1,155 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Birthday Surprise for Vasim!</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#21152f">
+<title>Vasim's Extremely Premium Birthday Gift</title>
 <style>
-* {
-  box-sizing: border-box;
-}
+*{box-sizing:border-box}
+:root{--gold:#ffd66e;--pink:#ff5475}
+body{margin:0;min-height:100svh;display:grid;place-items:center;padding:20px 0;background:radial-gradient(circle at 50% 0,#58345f,#21152f 58%,#120e1b);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#fff;overflow-x:hidden}
+.wrap{width:min(94vw,540px);text-align:center;padding:24px 18px 34px}
+.eyebrow{color:var(--gold);font-size:.76rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase}
+h1{font-size:clamp(2.25rem,9vw,3.7rem);line-height:1;margin:14px 0 10px;text-shadow:0 5px 25px #0005}
+.sub{color:#eadff0;line-height:1.5;margin:0 auto 10px;max-width:390px}
+.warning{display:inline-block;margin:10px 0 0;padding:7px 12px;border:1px solid #ffffff35;border-radius:999px;color:#ffdca0;font-size:.78rem;background:#ffffff0c}
+.scene{height:300px;position:relative;display:grid;place-items:end center;margin:8px auto 0;cursor:pointer;isolation:isolate}
+.shadow{position:absolute;bottom:3px;width:240px;height:24px;border-radius:50%;background:#0005;filter:blur(10px)}
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  background: radial-gradient(circle at top, #3b244f, #171326 70%);
-  font-family: system-ui, sans-serif;
-  color: white;
-  overflow-x: hidden;
-}
+/* Floating sticky white glue effect */
+.glue-puddle{position:absolute;bottom:5px;left:50%;width:285px;height:34px;transform:translateX(-50%);z-index:2;opacity:0;transition:opacity .7s .35s;filter:drop-shadow(0 5px 5px #0005)}
+.glue-puddle:before{content:"";position:absolute;inset:5px 8px 0;border-radius:48% 52% 45% 55% / 60% 55% 45% 40%;background:radial-gradient(ellipse at 35% 25%,#fff 0 12%,#f8f8f5 35%,#d9d9d5 75%,#aaa 100%);box-shadow:inset 0 3px 5px #fff,inset 0 -4px 7px #aaa8}
+.glue-puddle:after{content:"";position:absolute;left:35px;top:0;width:44px;height:15px;border-radius:50%;background:linear-gradient(180deg,#fff,#e9e9e6);box-shadow:75px 8px 0 -3px #f7f7f4,155px 2px 0 -2px #fff;animation:glueWobble 2.8s ease-in-out infinite alternate}
+.glue-bubble{position:absolute;bottom:24px;left:calc(50% - 112px);width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 35% 25%,#fff 0 18%,#f3f3f0 55%,#c7c7c2 100%);opacity:0;z-index:2}
+.opened .glue-puddle{opacity:1;animation:glueFloat 3s ease-in-out infinite}
+.opened .glue-bubble{opacity:.95;animation:bubbleBob 2.2s ease-in-out infinite alternate}
+@keyframes glueFloat{0%,100%{transform:translateX(-50%) scaleX(1)}50%{transform:translateX(-50%) scaleX(1.04) translateY(-2px)}}
+@keyframes glueWobble{from{transform:translateX(0) scaleX(1)}to{transform:translateX(5px) scaleX(1.12)}}
+@keyframes bubbleBob{from{transform:translateY(0)}to{transform:translateY(-8px)}}
 
-.wrap {
-  text-align: center;
-  width: min(92vw, 520px);
-  padding: 28px 18px;
-}
-
-.eyebrow {
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: #ffd77a;
-  font-size: .78rem;
-  font-weight: 800;
-}
-
-.title {
-  font-size: clamp(2rem, 8vw, 3.4rem);
-  line-height: 1.05;
-  margin: 12px 0;
-}
-
-.sub {
-  color: #e8dff0;
-  margin-bottom: 26px;
-}
-
-.scene {
-  height: 290px;
-  position: relative;
-  display: grid;
-  place-items: end center;
-  margin: auto;
-  cursor: pointer;
-}
-
-.box {
-  position: relative;
-  width: 210px;
-  height: 145px;
-  background: linear-gradient(135deg, #ff5475, #bd174a);
-  border-radius: 8px 8px 14px 14px;
-  box-shadow: 0 22px 45px #09061288;
-  z-index: 2;
-}
-
-.box:before {
-  content: "";
-  position: absolute;
-  inset: 0 86px;
-  background: #ffd66e;
-}
-
-.lid {
-  position: absolute;
-  width: 238px;
-  height: 38px;
-  left: -14px;
-  top: -27px;
-  background: linear-gradient(135deg, #ff7890, #d72b5b);
-  border-radius: 8px;
-  transform-origin: 15% 100%;
-  z-index: 4;
-  transition: transform .8s cubic-bezier(.2,.8,.2,1);
-}
-
-.lid:after {
-  content: "";
-  position: absolute;
-  left: 96px;
-  top: 0;
-  width: 46px;
-  height: 38px;
-  background: #ffd66e;
-}
-
-.bow {
-  position: absolute;
-  left: 90px;
-  top: -26px;
-  width: 34px;
-  height: 32px;
-  border: 9px solid #ffd66e;
-  border-radius: 50% 50% 8px 50%;
-  transform: rotate(25deg);
-}
-
-.bow:after {
-  content: "";
-  position: absolute;
-  width: 34px;
-  height: 32px;
-  border: 9px solid #ffd66e;
-  border-radius: 50% 50% 50% 8px;
-  left: 12px;
-  top: -8px;
-  transform: rotate(55deg);
-}
-
-.bananas {
-  position: absolute;
-  bottom: 84px;
-  z-index: 3;
-  font-size: 76px;
-  letter-spacing: -25px;
-  opacity: 0;
-  transform: translateY(95px) scale(.35) rotate(-12deg);
-  transition: all 1s cubic-bezier(.17,.89,.32,1.35);
-  filter: drop-shadow(0 8px 5px #0005);
-}
-
-.bananas span {
-  display: inline-block;
-}
-
-.bananas span:nth-child(2) {
-  transform: rotate(14deg) translateY(-15px);
-}
-
-.bananas span:nth-child(3) {
-  transform: rotate(-18deg) translateY(5px);
-}
-
-.spot {
-  position: absolute;
-  font-size: 24px;
-  opacity: 0;
-  transition: opacity .5s 1s;
-}
-
-.spot.a { top: 42px; left: 35px; }
-.spot.b { top: 4px; right: 24px; }
-.spot.c { top: 80px; right: 6px; }
-
-.message {
-  opacity: 0;
-  transform: translateY(12px);
-  transition: all .6s .7s;
-}
-
-.message h2 {
-  font-size: clamp(1.5rem, 6vw, 2.3rem);
-  color: #ffd66e;
-  margin: 8px 0;
-}
-
-.message p {
-  font-size: 1.05rem;
-  line-height: 1.5;
-  color: #f3eaf7;
-}
-
-.btn {
-  border: 0;
-  border-radius: 999px;
-  padding: 15px 27px;
-  background: #ffd66e;
-  color: #381b36;
-  font-weight: 900;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 0 8px 24px #0004;
-}
-
-.btn:active {
-  transform: scale(.97);
-}
-
-.opened .lid {
-  transform: translate(-15px,-48px) rotate(-28deg);
-}
-
-.opened .bananas {
-  opacity: 1;
-  transform: translateY(-20px) scale(1) rotate(0);
-}
-
-.opened .spot {
-  opacity: 1;
-}
-
-.opened .message {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.opened .btn {
-  display: none;
-}
-
-.hint {
-  font-size: .78rem;
-  color: #bdb0ca;
-  margin-top: 16px;
-}
+.box{position:relative;width:210px;height:145px;border-radius:8px 8px 14px 14px;background:linear-gradient(135deg,#ff6682,#b9134b);box-shadow:0 22px 45px #09061288;z-index:3}
+.box:before{content:"";position:absolute;inset:0 86px;background:var(--gold)}
+.lid{position:absolute;width:238px;height:38px;left:-14px;top:-27px;background:linear-gradient(135deg,#ff8ba0,#d72b5b);border-radius:8px;transform-origin:12% 100%;z-index:5;transition:transform .85s cubic-bezier(.2,.8,.2,1)}
+.lid:after{content:"";position:absolute;left:96px;top:0;width:46px;height:38px;background:var(--gold)}
+.bow{position:absolute;left:91px;top:-22px;width:34px;height:30px;border:9px solid var(--gold);border-radius:50% 50% 8px 50%;transform:rotate(25deg)}
+.bow:after{content:"";position:absolute;width:34px;height:30px;border:9px solid var(--gold);border-radius:50% 50% 50% 8px;left:12px;top:-8px;transform:rotate(55deg)}
+.bananas{position:absolute;bottom:82px;z-index:4;font-size:clamp(55px,15vw,78px);letter-spacing:-24px;white-space:nowrap;opacity:0;transform:translateY(100px) scale(.3) rotate(-14deg);transition:all 1s cubic-bezier(.17,.89,.32,1.35);filter:drop-shadow(0 8px 5px #0006)}
+.bananas span{display:inline-block;position:relative}
+.bananas span:nth-child(2){transform:rotate(14deg) translateY(-15px)}
+.bananas span:nth-child(3){transform:rotate(-18deg) translateY(5px)}
+.bananas span:nth-child(4){transform:rotate(9deg) translateY(-8px)}
+.banana-label{position:absolute;bottom:68px;left:50%;transform:translateX(-50%) rotate(-5deg);z-index:6;white-space:nowrap;background:#fff1c7;color:#5b3516;border:2px dashed #9d6a28;padding:5px 9px;border-radius:7px;font-size:.68rem;font-weight:1000;opacity:0;transition:opacity .4s 1s}
+.btn{border:0;border-radius:999px;padding:15px 27px;background:var(--gold);color:#381b36;font-weight:950;font-size:1rem;cursor:pointer;box-shadow:0 8px 24px #0005;transition:transform .2s}
+.btn:active{transform:scale(.96)}
+.message{display:none;margin:20px auto 0;max-width:440px;animation:rise .7s both}
+.message h2{font-size:clamp(1.65rem,7vw,2.4rem);color:var(--gold);margin:8px 0 12px}
+.message p{font-size:1.03rem;line-height:1.65;color:#f5eefa;margin:8px 0}
+.roast{margin:16px auto 0;padding:13px 15px;border-radius:15px;background:#ffffff12;border:1px solid #ffffff25;color:#ffe4a4;font-weight:750;line-height:1.5}
+.small{font-size:.76rem;color:#bdb0ca;margin-top:18px}
+.opened .lid{transform:translate(-17px,-58px) rotate(-32deg)}
+.opened .bananas{opacity:1;transform:translateY(-20px) scale(1) rotate(0)}
+.opened .banana-label{opacity:1}
+.opened .message{display:block}
+.opened .btn{display:none}
+.confetti{position:fixed;top:-20px;z-index:20;pointer-events:none;font-size:22px;animation:fall 2.8s linear forwards}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fall{to{transform:translateY(110vh) rotate(650deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 
 <body>
-
 <main class="wrap" id="app">
 
-  <div class="eyebrow">
-    🎉 A Special Delivery 🎉
-  </div>
+  <div class="eyebrow">🎉 Official Birthday Gift Delivery 🎉</div>
 
-  <h1 class="title">
-    Happy Birthday,<br>Vasim!
-  </h1>
+  <h1>Happy Birthday,<br>Vasim! 🥳</h1>
 
-  <p class="sub">
-    Someone has a very special gift for you...
-  </p>
+  <p class="sub">We've got something special for you. Please manage your expectations accordingly.</p>
 
-  <div class="scene" id="scene">
+  <div class="warning">⚠️ Luxury gift experience. Budget: emotionally unlimited.</div>
 
-    <div class="bananas">
-      <span>🍌</span>
-      <span>🍌</span>
-      <span>🍌</span>
-      <span>🍌</span>
+  <div class="scene" id="scene" role="button" tabindex="0" aria-label="Open the birthday gift">
 
-      <i class="spot a">🟤</i>
-      <i class="spot b">🟤</i>
-      <i class="spot c">🟤</i>
+    <div class="shadow"></div>
+
+    <div class="glue-puddle" aria-hidden="true"></div>
+    <div class="glue-bubble" aria-hidden="true"></div>
+
+    <div class="bananas" aria-label="A bunch of spotted bananas">
+      <span>🍌</span><span>🍌</span><span>🍌</span><span>🍌</span>
     </div>
+
+    <div class="banana-label">100% ORGANIC • 0% FRESHNESS</div>
 
     <div class="box">
-      <div class="lid">
-        <div class="bow"></div>
-      </div>
+      <div class="lid"><div class="bow"></div></div>
     </div>
 
   </div>
 
-  <button class="btn" id="open">
-    🎁 Open Your Gift
-  </button>
+  <button class="btn" id="open">🎁 Unbox your ridiculously expensive gift</button>
 
-  <section class="message">
-    <h2>Surprise! 🍌😂</h2>
+  <section class="message" aria-live="polite">
+    <h2>SURPRISE! 🍌😂</h2>
 
-    <p>
-      Hope your year is as ripe as these bananas!
-      <br>
-      Stay awesome, Vasim.
-      Have a <b>peel</b>-ing good birthday! 🥳
-    </p>
+    <p><b>We searched everywhere for the perfect birthday gift...</b><br>
+    And somehow, this bunch of bananas won. 🍌</p>
+
+    <div class="roast">
+      So here's a bunch of premium spotted bananas — just like you, getting sweeter with age and a little brown around the edges. 💀
+    </div>
+
+    <p>May your year be full of happiness, success, good health and fewer spots than these bananas.</p>
+
+    <p><b>Stay ripe, Vasim. Don't slip. Happy Birthday! 🥳</b></p>
+
+    <div class="small">Gift receipt: Non-refundable. Non-exchangeable. Eat before expiry.</div>
   </section>
 
-  <div class="hint" id="hint">
-    Tap the gift to reveal your birthday surprise
-  </div>
+  <div class="small" id="hint">Tap the box. Go on. It's not going to bite. 🍌</div>
 
 </main>
 
 <script>
-const app = document.getElementById("app");
-const hint = document.getElementById("hint");
+const app = document.getElementById('app');
+const hint = document.getElementById('hint');
+let opened = false;
 
 function openGift() {
-  app.classList.add("opened");
-  hint.textContent =
-    "Best birthday gift ever. You're welcome. 😂";
+  if (opened) return;
+
+  opened = true;
+  app.classList.add('opened');
+
+  hint.textContent = 'A gift this bad deserves a standing ovation. 😂';
+
+  const bits = ['🍌','🎉','🟤','✨','🍌'];
+
+  for (let i = 0; i < 28; i++) {
+    const el = document.createElement('span');
+    el.className = 'confetti';
+    el.textContent = bits[Math.floor(Math.random() * bits.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.animationDelay = Math.random() * .8 + 's';
+    el.style.animationDuration = (2 + Math.random() * 1.5) + 's';
+
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 4500);
+  }
 }
 
-document.getElementById("open")
-  .addEventListener("click", openGift);
+document.getElementById('open').addEventListener('click', openGift);
+document.getElementById('scene').addEventListener('click', openGift);
 
-document.getElementById("scene")
-  .addEventListener("click", openGift);
+document.getElementById('scene').addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    openGift();
+  }
+});
 </script>
-
 </body>
 </html>
