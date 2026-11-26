@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy Birthday Vasim 🍌</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;display:grid;place-items:center;
+ background:radial-gradient(circle at top,#58345f,#21152f 65%,#120e1b);
+ font-family:system-ui,sans-serif;color:white;overflow-x:hidden
+}
+.wrap{width:min(94vw,540px);text-align:center;padding:25px 18px;position:relative;z-index:1}
+.eyebrow{color:#ffd66e;font-size:.75rem;font-weight:900;letter-spacing:3px}
+h1{font-size:clamp(2.4rem,9vw,3.7rem);line-height:1;margin:15px 0}
+.sub{color:#eadff0}
+.warning{display:inline-block;padding:8px 12px;border:1px solid #ffffff35;border-radius:30px;color:#ffdca0;font-size:.8rem}
+.scene{height:380px;position:relative;display:grid;place-items:end center;margin:10px auto;cursor:pointer}
+.shadow{position:absolute;bottom:3px;width:240px;height:24px;border-radius:50%;background:#0005;filter:blur(10px)}
+
+.box{position:relative;width:210px;height:145px;border-radius:10px;background:linear-gradient(135deg,#ff6682,#b9134b);z-index:3;box-shadow:0 22px 45px #0008}
+.box:before{content:"";position:absolute;inset:0 86px;background:#ffd66e}
+.lid{position:absolute;width:238px;height:38px;left:-14px;top:-27px;background:linear-gradient(135deg,#ff8ba0,#d72b5b);border-radius:8px;transform-origin:12% 100%;z-index:5;transition:transform 1.3s ease}
+.lid:after{content:"";position:absolute;left:96px;top:0;width:46px;height:38px;background:#ffd66e}
+.bow{position:absolute;left:91px;top:-22px;width:34px;height:30px;border:9px solid #ffd66e;border-radius:50%}
+.bow:after{content:"";position:absolute;width:34px;height:30px;border:9px solid #ffd66e;border-radius:50%;left:12px;top:-8px}
+
+/* BANANA */
+.big-banana{
+ position:absolute;
+ width:300px;height:340px;
+ bottom:75px;left:50%;
+ z-index:4;opacity:0;
+ transform:translate(-50%,150px) scale(.2) rotate(-12deg);
+ transform-origin:50% 90%;
+ transition:transform 1.8s cubic-bezier(.17,.89,.32,1.2),opacity .6s;
+ filter:drop-shadow(0 13px 10px #0006);
+ pointer-events:none;
+}
+.banana-svg{width:100%;height:100%;overflow:visible}
+
+/* Peel strips: hinged at the bottom, fold down from the top */
+.peel{
+ transform-box:fill-box;
+ transform-origin:50% 100%;
+ transform:rotate(0deg) scaleY(1);
+ transition:transform 1.8s cubic-bezier(.45,.05,.25,1);
+}
+.p2{transition-delay:0s}
+.p1{transition-delay:.5s}
+.p3{transition-delay:1s}
+.peeled .p1{transform:rotate(28deg) scaleY(-1)}
+.peeled .p2{transform:rotate(3deg) scaleY(-1)}
+.peeled .p3{transform:rotate(-28deg) scaleY(-1)}
+
+.opened .lid{transform:translate(-17px,-58px) rotate(-32deg)}
+.opened .big-banana{opacity:1;transform:translate(-50%,-8px) scale(1) rotate(0)}
+
+/* Shake the banana a little on each squirt */
+.big-banana.recoil svg{animation:recoil .35s ease-out}
+@keyframes recoil{
+ 0%{transform:translateY(0) scale(1)}
+ 30%{transform:translateY(8px) scale(1.03,.97)}
+ 100%{transform:translateY(0) scale(1)}
+}
+
+.sound-btn{
+ position:fixed;top:14px;right:14px;z-index:70;
+ border:1px solid #ffffff40;border-radius:999px;
+ background:#ffffff18;color:white;font-size:1.2rem;
+ width:46px;height:46px;cursor:pointer;backdrop-filter:blur(6px)
+}
+
+.btn{
+ border:0;border-radius:999px;padding:15px 27px;background:#ffd66e;
+ color:#381b36;font-weight:950;font-size:1rem;cursor:pointer;
+ box-shadow:0 8px 24px #0005
+}
+.message{display:none;margin:20px auto;max-width:440px}
+.message h2{color:#ffd66e;font-size:2rem}
+.message p{line-height:1.6}
+.roast{padding:13px;border-radius:15px;background:#ffffff12;color:#ffe4a4;font-weight:750}
+.small{font-size:.76rem;color:#bdb0ca;margin-top:18px}
+.opened .message{display:block}
+.opened .btn{display:none}
+
+/* WHITE GLUE */
+.glue-layer{
+ position:fixed;inset:0;z-index:50;
+ pointer-events:none;overflow:hidden;visibility:hidden
+}
+.glue-layer.active{visibility:visible}
+.glue-layer canvas{position:absolute;inset:0;width:100%;height:100%}
+
+.glue-flood{
+ position:absolute;
+ left:-15%;bottom:-130%;
+ width:130%;height:125%;
+ border-radius:48% 52% 0 0;
+ background:
+ radial-gradient(ellipse at 30% 8%,#fff 0 5%,#fafaf8 28%,transparent 55%),
+ linear-gradient(180deg,#fff,#f5f5f2 50%,#d2d2ce);
+ box-shadow:inset 0 25px 35px #fff,0 -10px 35px #ffffff;
+ transition:bottom 5s cubic-bezier(.4,.1,.3,1);
+}
+.glue-layer.flooding .glue-flood{bottom:-8%}
+
+.blob{
+ position:absolute;
+ background:radial-gradient(circle at 35% 25%,#fff 0 20%,#f5f5f2 65%,#d4d4d1 100%);
+ border-radius:50%;
+ box-shadow:inset -7px -8px 15px #bdbdbd55,0 5px 18px #0002;
+ opacity:0;
+}
+.glue-layer.flooding .blob{animation:blobPop 1.3s ease-out forwards}
+.blob.b1{width:250px;height:200px;left:-55px;bottom:10%;animation-delay:1.2s}
+.blob.b2{width:280px;height:230px;right:-65px;bottom:18%;animation-delay:1.8s}
+.blob.b3{width:190px;height:150px;left:25%;bottom:30%;animation-delay:2.4s}
+.blob.b4{width:260px;height:190px;right:15%;bottom:3%;animation-delay:3s}
+.blob.b5{width:180px;height:150px;left:40%;bottom:12%;animation-delay:3.6s}
+
+@keyframes blobPop{
+ 0%{opacity:0;transform:scale(.1)}
+ 70%{opacity:1;transform:scale(1.18)}
+ 100%{opacity:1;transform:scale(1)}
+}
+
+.final-message{
+ position:fixed;z-index:60;left:50%;top:50%;
+ width:min(92vw,650px);
+ transform:translate(-50%,-50%) scale(.7);
+ opacity:0;text-align:center;padding:30px 20px;
+ border-radius:25px;background:#21152fef;
+ border:3px solid white;
+ box-shadow:0 15px 60px #0008;visibility:hidden
+}
+.final-message.show{
+ visibility:visible;
+ animation:finalPop .9s cubic-bezier(.2,.9,.2,1.2) forwards
+}
+.final-message h2{
+ font-size:clamp(2rem,9vw,4rem);
+ line-height:1.05;color:white;margin:0;
+ text-shadow:0 4px 0 #777
+}
+.final-message p{font-size:1.1rem;color:#ffe28a;font-weight:900}
+
+.confetti{
+ position:fixed;top:-20px;z-index:20;
+ pointer-events:none;font-size:clamp(30px,9vw,52px);
+ animation:fall 3.6s linear forwards
+}
+@keyframes finalPop{
+ to{opacity:1;transform:translate(-50%,-50%) scale(1)}
+}
+@keyframes fall{
+ to{transform:translateY(110vh) rotate(650deg);opacity:0}
+}
+@media(max-width:380px){
+ .big-banana{width:260px;height:300px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;transition-delay:0s!important}
+}
+</style>
+</head>
+
+<body>
+
+<button class="sound-btn" id="soundBtn" aria-label="Mute sound">🔊</button>
+
+<main class="wrap" id="app">
+
+ <div class="eyebrow">🎉 Official Birthday Gift Delivery 🎉</div>
+ <h1>Happy Birthday,<br>Vasim! 🥳</h1>
+ <p class="sub">We've got something special for you. Please manage your expectations accordingly.</p>
+ <div class="warning">⚠️ Luxury gift experience. Budget: emotionally unlimited.</div>
+
+ <div class="scene" id="scene" role="button" tabindex="0">
+
+  <div class="shadow"></div>
+
+  <div class="big-banana" id="banana">
+
+   <svg viewBox="0 0 300 360" class="banana-svg" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+     <linearGradient id="peelBody" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#b17716"/>
+      <stop offset=".25" stop-color="#f2c12a"/>
+      <stop offset=".55" stop-color="#ffe85e"/>
+      <stop offset=".85" stop-color="#e9b322"/>
+      <stop offset="1" stop-color="#9c6414"/>
+     </linearGradient>
+     <linearGradient id="peelStrip" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#c58a1c"/>
+      <stop offset=".5" stop-color="#ffe55a"/>
+      <stop offset="1" stop-color="#d29a1e"/>
+     </linearGradient>
+     <linearGradient id="fruit" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e9e4d6"/>
+      <stop offset=".4" stop-color="#ffffff"/>
+      <stop offset=".75" stop-color="#fbf9f2"/>
+      <stop offset="1" stop-color="#dcd6c6"/>
+     </linearGradient>
+    </defs>
+
+    <!-- White fruit inside -->
+    <path d="M118 72
+      C114 50 152 44 153 66
+      C188 105 204 160 200 212
+      L132 212
+      C130 160 124 112 118 72Z"
+      fill="url(#fruit)" stroke="#cfc8b4" stroke-width="3"/>
+    <path d="M140 60 C160 95 172 140 174 190" fill="none"
+      stroke="#e7e1d1" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+
+    <!-- Invisible marker at the top point of the fruit -->
+    <circle id="tip" cx="134" cy="52" r="2" fill="none"/>
+
+    <!-- Lower peel that stays on -->
+    <path d="M128 185
+      L141 193 L153 184 L166 193 L179 184 L192 193 L204 185
+      C206 240 190 290 162 318
+      C155 325 146 326 141 320
+      C131 290 132 240 128 185Z"
+      fill="url(#peelBody)" stroke="#956014" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M190 205 C192 245 182 280 165 302" fill="none"
+      stroke="#fff4a0" stroke-width="7" stroke-linecap="round" opacity=".6"/>
+    <g fill="#80501a" opacity=".6">
+     <ellipse cx="150" cy="232" rx="4" ry="3"/>
+     <ellipse cx="174" cy="262" rx="5" ry="3"/>
+     <ellipse cx="152" cy="290" rx="3" ry="3"/>
+     <ellipse cx="185" cy="222" rx="3" ry="2"/>
+    </g>
+    <!-- Dark bottom tip -->
+    <path d="M141 318 Q144 334 152 333 Q159 330 158 320 Q150 326 141 318Z"
+      fill="#3f2912" stroke="#2c1c0c" stroke-width="2"/>
+
+    <!-- Peel strips covering the top; they fold down when peeled -->
+    <path class="peel p1"
+      d="M128 190 C122 150 116 105 116 72 C116 60 124 52 134 50
+      C138 90 142 140 151 190Z"
+      fill="url(#peelStrip)" stroke="#a46c18" stroke-width="3.5" stroke-linejoin="round"/>
+
+    <path class="peel p3"
+      d="M175 190 C173 150 162 100 152 62
+      C186 100 206 150 205 190Z"
+      fill="url(#peelStrip)" stroke="#a46c18" stroke-width="3.5" stroke-linejoin="round"/>
+
+    <g class="peel p2">
+     <path d="M148 190 C142 140 137 90 134 50
+      C142 46 150 50 153 62 C165 100 176 150 177 190Z"
+      fill="url(#peelStrip)" stroke="#a46c18" stroke-width="3.5" stroke-linejoin="round"/>
+     <g fill="#80501a" opacity=".6">
+      <ellipse cx="158" cy="120" rx="3" ry="2"/>
+      <ellipse cx="166" cy="160" rx="4" ry="3"/>
+     </g>
+     <!-- Stem -->
+     <path d="M136 52 Q131 32 137 17 Q148 13 151 24 L148 54Z"
+      fill="#67431d" stroke="#3f2912" stroke-width="3"/>
+    </g>
+
+   </svg>
+
+  </div>
+
+  <div class="box">
+   <div class="lid"><div class="bow"></div></div>
+  </div>
+
+ </div>
+
+ <button class="btn" id="open">
+  🎁 Unbox your ridiculously expensive gift
+ </button>
+
+ <section class="message">
+  <h2>THE BIG REVEAL! 🍌</h2>
+  <p><b>We searched everywhere for the perfect birthday gift...</b><br>
+  And somehow, this giant banana won.</p>
+  <div class="roast">
+   One banana. Extra large. Fully loaded. Please handle this premium delivery responsibly. 😂
+  </div>
+  <p>May your year be full of happiness, success and absolutely no plumbing emergencies.</p>
+  <p><b>Happy Birthday, Vasim! 🥳</b></p>
+ </section>
+
+ <div class="small" id="hint">
+  Tap the box. Go on. It's not going to bite. 🍌
+ </div>
+
+</main>
+
+<div class="glue-layer" id="glueLayer">
+ <canvas id="splatCanvas"></canvas>
+ <canvas id="liveCanvas"></canvas>
+ <div class="glue-flood"></div>
+ <div class="blob b1"></div>
+ <div class="blob b2"></div>
+ <div class="blob b3"></div>
+ <div class="blob b4"></div>
+ <div class="blob b5"></div>
+</div>
+
+<div class="final-message" id="finalMessage">
+ <h2>PLEASE CALL A PLUMBER BASEEEM 🚨</h2>
+ <p>URGENT: THE SITUATION IS OUT OF CONTROL. 😂</p>
+</div>
+
+<script>
+const app=document.getElementById('app');
+const hint=document.getElementById('hint');
+const glueLayer=document.getElementById('glueLayer');
+const finalMessage=document.getElementById('finalMessage');
+const tip=document.getElementById('tip');
+const banana=document.getElementById('banana');
+
+let opened=false;
+
+/* ---------- SOUND (generated live, no files needed) ---------- */
+let ctx=null, master=null, muted=false;
+
+function initAudio(){
+ if(ctx)return;
+ try{
+  ctx=new (window.AudioContext||window.webkitAudioContext)();
+  master=ctx.createGain();
+  master.gain.value=muted?0:.7;
+  master.connect(ctx.destination);
+ }catch(e){ctx=null}
+}
+
+function noiseBuffer(sec){
+ const len=Math.floor(ctx.sampleRate*sec), buf=ctx.createBuffer(1,len,ctx.sampleRate), d=buf.getChannelData(0);
+ for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
+ return buf;
+}
+
+function tone(freq,end,dur,type='sine',vol=.4,at=0){
+ if(!ctx)return;
+ const t=ctx.currentTime+at, o=ctx.createOscillator(), g=ctx.createGain();
+ o.type=type;
+ o.frequency.setValueAtTime(freq,t);
+ o.frequency.exponentialRampToValueAtTime(end,t+dur);
+ g.gain.setValueAtTime(.0001,t);
+ g.gain.exponentialRampToValueAtTime(vol,t+.02);
+ g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+ o.connect(g).connect(master);
+ o.start(t);o.stop(t+dur+.05);
+}
+
+function noise(dur,filterType,f1,f2,vol=.3,at=0){
+ if(!ctx)return;
+ const t=ctx.currentTime+at, s=ctx.createBufferSource(), f=ctx.createBiquadFilter(), g=ctx.createGain();
+ s.buffer=noiseBuffer(dur+.1);
+ f.type=filterType;
+ f.frequency.setValueAtTime(f1,t);
+ f.frequency.exponentialRampToValueAtTime(f2,t+dur);
+ g.gain.setValueAtTime(.0001,t);
+ g.gain.exponentialRampToValueAtTime(vol,t+dur*.15);
+ g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+ s.connect(f).connect(g).connect(master);
+ s.start(t);s.stop(t+dur+.1);
+}
+
+const sfx={
+ pop(){tone(650,140,.18,'sine',.5);noise(.12,'highpass',2000,6000,.15)},
+ whoosh(){noise(1.5,'bandpass',250,2200,.25)},
+ tada(){[523,659,784,1047].forEach((f,i)=>tone(f,f,.45,'triangle',.22,.12*i))},
+ peel(){for(let i=0;i<9;i++)noise(.05,'highpass',1800+Math.random()*2500,3000,.12,i*.07+Math.random()*.03)},
+ squirt(p){
+  noise(.45*p+.15,'bandpass',2600,350,.45*p);
+  tone(420,90,.35,'sine',.35*p);
+ },
+ groan(p,len){
+  // Synthesized "aaahh": open "ah" vowel, sigh-like falling pitch, breathy "hh" tail
+  if(!ctx)return;
+  const t=ctx.currentTime, dur=len||1;
+  const base=125+Math.random()*10;
+
+  // Softer, more voice-like source than a plain sawtooth (harmonics roll off like a real throat)
+  const n=40, re=new Float32Array(n), im=new Float32Array(n);
+  for(let k=1;k<n;k++)im[k]=1/(k*k*.6+k*.4);
+  const o=ctx.createOscillator();
+  o.setPeriodicWave(ctx.createPeriodicWave(re,im));
+  o.frequency.setValueAtTime(base*1.1,t);
+  o.frequency.linearRampToValueAtTime(base*1.3,t+dur*.18);
+  o.frequency.exponentialRampToValueAtTime(base*.72,t+dur);
+
+  // Natural wobble + tiny random jitter
+  const lfo=ctx.createOscillator(), lg=ctx.createGain();
+  lfo.frequency.value=5+Math.random();lg.gain.value=base*.035;
+  lfo.connect(lg).connect(o.frequency);
+
+  const voice=ctx.createGain();
+  voice.gain.setValueAtTime(.0001,t);
+  voice.gain.exponentialRampToValueAtTime(1,t+.12);
+  voice.gain.setValueAtTime(1,t+dur*.45);
+  voice.gain.exponentialRampToValueAtTime(.0001,t+dur*.92);
+  o.connect(voice);
+
+  // Breath: a little through the whole sound, then the "hh" as the voice fades
+  const br=ctx.createBufferSource();br.buffer=noiseBuffer(dur+.4);
+  const breath=ctx.createGain();
+  breath.gain.setValueAtTime(.06,t);
+  breath.gain.setValueAtTime(.06,t+dur*.55);
+  breath.gain.linearRampToValueAtTime(.35,t+dur*.85);
+  breath.gain.exponentialRampToValueAtTime(.0001,t+dur+.3);
+  br.connect(breath);
+
+  const out=ctx.createGain();out.gain.value=1.1*p;
+  // "ah" formants for a male voice
+  [[730,1.4,7],[1090,.8,8],[2440,.3,10],[3400,.12,10]].forEach(([fq,amp,q])=>{
+   const f=ctx.createBiquadFilter();f.type='bandpass';f.frequency.value=fq;f.Q.value=q;
+   const a=ctx.createGain();a.gain.value=amp;
+   voice.connect(f);breath.connect(f);f.connect(a).connect(out);
+  });
+  // A bit of chest resonance
+  const low=ctx.createBiquadFilter();low.type='lowpass';low.frequency.value=400;
+  const lowG=ctx.createGain();lowG.gain.value=.35;
+  voice.connect(low).connect(lowG).connect(out);
+
+  out.connect(master);
+  o.start(t);lfo.start(t);br.start(t);
+  o.stop(t+dur+.05);lfo.stop(t+dur+.05);br.stop(t+dur+.4);
+ },
+ splat(){noise(.08,'lowpass',1800,400,.12);tone(300+Math.random()*200,120,.1,'sine',.1)},
+ ooze(){
+  noise(5,'lowpass',250,600,.22);
+  for(let i=0;i<16;i++)tone(160+Math.random()*120,70,.3,'sine',.16,.3*i);
+ },
+ flood(){noise(4,'lowpass',200,900,.3)},
+ siren(){
+  // Ambulance "wee-woo": two alternating tones that get louder as it arrives
+  if(!ctx)return;
+  const t0=ctx.currentTime, dur=5, half=.45;
+  const o=ctx.createOscillator(), o2=ctx.createOscillator();
+  const g=ctx.createGain(), f=ctx.createBiquadFilter();
+  o.type='square';o2.type='triangle';
+  f.type='lowpass';f.frequency.value=2600;
+  for(let t=0,i=0;t<dur;t+=half,i++){
+   const fr=i%2?720:960;
+   o.frequency.setValueAtTime(fr,t0+t);
+   o2.frequency.setValueAtTime(fr,t0+t);
+  }
+  g.gain.setValueAtTime(.0001,t0);
+  g.gain.exponentialRampToValueAtTime(.05,t0+.3);
+  g.gain.exponentialRampToValueAtTime(.16,t0+dur-.8);
+  g.gain.exponentialRampToValueAtTime(.0001,t0+dur);
+  o.connect(f);o2.connect(f);f.connect(g).connect(master);
+  o.start(t0);o2.start(t0);o.stop(t0+dur+.05);o2.stop(t0+dur+.05);
+ }
+};
+
+const soundBtn=document.getElementById('soundBtn');
+soundBtn.addEventListener('click',()=>{
+ muted=!muted;
+ soundBtn.textContent=muted?'🔇':'🔊';
+ soundBtn.setAttribute('aria-label',muted?'Unmute sound':'Mute sound');
+ if(master)master.gain.value=muted?0:.7;
+});
+
+/* ---------- GLUE SPRAY (canvas particles) ---------- */
+const live=document.getElementById('liveCanvas');
+const splat=document.getElementById('splatCanvas');
+let lc,sc,W,H;
+let parts=[],drips=[],tipX=0,tipY=0,oozeUntil=0,last=0,looping=false,lastSplatSound=0;
+const G=1500; // gravity, px/s²
+
+function sizeCanvases(){
+ const dpr=Math.min(window.devicePixelRatio||1,2);
+ W=innerWidth;H=innerHeight;
+ [live,splat].forEach(c=>{c.width=W*dpr;c.height=H*dpr});
+ lc=live.getContext('2d');sc=splat.getContext('2d');
+ lc.setTransform(dpr,0,0,dpr,0,0);sc.setTransform(dpr,0,0,dpr,0,0);
+}
+
+function blob(c,x,y,r){
+ const g=c.createRadialGradient(x-r*.3,y-r*.35,r*.1,x,y,r);
+ g.addColorStop(0,'#ffffff');
+ g.addColorStop(.7,'#f3f3ee');
+ g.addColorStop(1,'#d3d3cc');
+ c.fillStyle=g;
+ c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();
+}
+
+function stickAt(p){
+ const R=p.r*1.5;
+ blob(sc,p.x,p.y,R);
+ for(let k=0;k<3;k++){
+  blob(sc,p.x+(Math.random()-.5)*R*1.8,p.y+(Math.random()-.5)*R*1.8,R*(.3+Math.random()*.4));
+ }
+ // Some splats slowly run down the screen
+ if(Math.random()<.6){
+  drips.push({x:p.x,y:p.y,r:R*.6,v:12+Math.random()*40,left:40+Math.random()*260});
+ }
+ const now=performance.now();
+ if(now-lastSplatSound>70){lastSplatSound=now;sfx.splat()}
+}
+
+function drawPart(p){
+ lc.strokeStyle='#f7f7f3';
+ lc.lineWidth=p.r*2;
+ lc.beginPath();
+ lc.moveTo(p.trail[0][0],p.trail[0][1]);
+ for(const q of p.trail)lc.lineTo(q[0],q[1]);
+ lc.lineTo(p.x,p.y);
+ lc.stroke();
+ lc.fillStyle='#ffffff';
+ lc.beginPath();lc.arc(p.x-p.r*.3,p.y-p.r*.3,p.r*.45,0,Math.PI*2);lc.fill();
+}
+
+function frame(t){
+ const dt=Math.min((t-last)/1000,.033);last=t;
+ lc.clearRect(0,0,W,H);
+ lc.lineCap='round';lc.lineJoin='round';
+ lc.shadowColor='rgba(40,20,50,.35)';lc.shadowBlur=5;
+
+ // Slow ooze from the tip after the squirts
+ if(t<oozeUntil){
+  const n=Math.random()<.7?2:1;
+  for(let i=0;i<n;i++){
+   const local=Math.random()<.12;
+   parts.push({
+    x:tipX+(Math.random()-.5)*8,y:tipY,
+    vx:(Math.random()-.5)*50,vy:-30-Math.random()*70,
+    r:5+Math.random()*6,g:.8,trail:[],
+    stopY:local?tipY+15+Math.random()*70:H-4-Math.random()*25
+   });
+  }
+ }
+
+ for(let i=parts.length-1;i>=0;i--){
+  const p=parts[i];
+  p.trail.push([p.x,p.y]);
+  if(p.trail.length>6)p.trail.shift();
+  p.vy+=G*(p.g||1)*dt;
+  p.x+=p.vx*dt;p.y+=p.vy*dt;
+  let stick=false;
+  if(p.y<p.r){p.y=p.r;stick=true}
+  else if(p.x<p.r||p.x>W-p.r){p.x=Math.max(p.r,Math.min(W-p.r,p.x));stick=true}
+  else if(p.vy>0&&p.y>=p.stopY){p.y=Math.min(p.y,H-2);stick=true}
+  if(stick){stickAt(p);parts.splice(i,1);continue}
+  drawPart(p);
+ }
+
+ // Drips sliding down (drawn on the permanent layer so they leave a trail)
+ sc.fillStyle='#f4f4ef';
+ for(let i=drips.length-1;i>=0;i--){
+  const d=drips[i];
+  const step=d.v*dt;
+  d.y+=step;d.left-=step;d.r*=.9985;
+  sc.beginPath();sc.arc(d.x,d.y,d.r,0,Math.PI*2);sc.fill();
+  if(d.left<=0||d.y>H+10)drips.splice(i,1);
+ }
+
+ if(t<oozeUntil||parts.length||drips.length)requestAnimationFrame(frame);
+ else looping=false;
+}
+
+function startLoop(){
+ if(looping)return;
+ looping=true;last=performance.now();
+ requestAnimationFrame(frame);
+}
+
+function squirt(power){
+ sfx.squirt(power);
+ // aaahh (long) ... ahhh ... ahh (short)
+ sfx.groan(power,power>=1?1.5:power>=.8?1.05:.7);
+ banana.classList.remove('recoil');void banana.offsetWidth;banana.classList.add('recoil');
+ const scale=Math.sqrt(H/800);
+ const n=Math.round(95*power);
+ for(let i=0;i<n;i++){
+  setTimeout(()=>{
+   const ang=-Math.PI/2+(Math.random()-.5)*.75;
+   const sp=(950+Math.random()*750)*power*scale;
+   const vx=Math.cos(ang)*sp, vy=Math.sin(ang)*sp;
+   const apex=tipY-(vy*vy)/(2*G);
+   parts.push({
+    x:tipX,y:tipY,vx,vy,
+    r:2.5+Math.random()*7*power+2,
+    trail:[],
+    stopY:Math.max(apex,0)+Math.random()*(H+30-Math.max(apex,0))
+   });
+  },i*3);
+ }
+ startLoop();
+}
+
+function startGlue(){
+ sizeCanvases();
+ const r=tip.getBoundingClientRect();
+ tipX=r.left+r.width/2;
+ tipY=r.top+r.height/2;
+ glueLayer.classList.add('active');
+
+ // Pichkari: big squirt, then another, then another
+ squirt(1);
+ setTimeout(()=>squirt(.85),1000);
+ setTimeout(()=>squirt(.7),1900);
+
+ // Then it slowly keeps coming out
+ setTimeout(()=>{
+  oozeUntil=performance.now()+6500;
+  sfx.ooze();
+  startLoop();
+  hint.textContent='Uh oh. It is not stopping... 😳';
+ },2800);
+
+ // ...and the whole page fills up
+ setTimeout(()=>{
+  glueLayer.classList.add('flooding');
+  sfx.flood();
+ },4300);
+
+ setTimeout(()=>{
+  finalMessage.classList.add('show');
+  sfx.siren();
+ },9800);
+}
+
+function openGift(){
+ if(opened)return;
+ opened=true;
+
+ initAudio();
+ if(ctx&&ctx.state==='suspended')ctx.resume();
+ sfx.pop();
+ setTimeout(sfx.whoosh,150);
+ setTimeout(sfx.tada,1300);
+ [2000,2500,3000].forEach(d=>setTimeout(sfx.peel,d));
+
+ app.classList.add('opened');
+ hint.textContent='Hold on... it is being peeled very carefully. 🍌';
+
+ const bits=['🍌','🎉','✨','🍌'];
+ for(let i=0;i<22;i++){
+  const el=document.createElement('span');
+  el.className='confetti';
+  el.textContent=bits[Math.floor(Math.random()*bits.length)];
+  el.style.left=Math.random()*100+'vw';
+  el.style.animationDelay=Math.random()*.9+'s';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),5000);
+ }
+
+ setTimeout(()=>app.classList.add('peeled'),2000);
+
+ setTimeout(()=>{
+  hint.textContent='Wait for it... 😳';
+  startGlue();
+ },5300);
+
+ setTimeout(()=>{
+  hint.textContent='Birthday gift delivered. Plumber required immediately.';
+ },15500);
+}
+
+document.getElementById('open').addEventListener('click',openGift);
+document.getElementById('scene').addEventListener('click',openGift);
+document.getElementById('scene').addEventListener('keydown',e=>{
+ if(e.key==='Enter'||e.key===' '){
+  e.preventDefault();
+  openGift();
+ }
+});
+</script>
+
+</body>
+</html>
